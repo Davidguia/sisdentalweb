@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>SisDentaL - Dentista</title>
+    </h:head>
+
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:commandButton update=":form:panDentista" icon="ui-icon-plus" oncomplete="PF('dlgDentista').show()" title="Novo dentista">
+                <f:setPropertyActionListener value="#{null}" target="#{dentistaBean.dentistaSelecionado}" />
+            </p:commandButton>
+            
+            
+            
+            
+            
+            <p:dataTable id="basicDT" var="dentista" value="#{dentistaBean.listaDentista}">
+                <f:facet name="header">
+                    Dentistas
+                </f:facet>
+                <p:column headerText="Código">
+                    <h:outputText value="#{dentista.id}" />
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{dentista.nome}" />
+                </p:column>
+                <p:column headerText="CPF">
+                    <h:outputText value="#{dentista.cpf}" />
+                </p:column>
+                <p:column headerText="RG">
+                    <h:outputText value="#{dentista.rg}" />
+                </p:column>
+                <p:column headerText="CRO">
+                    <h:outputText value="#{dentista.cro}" />
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:panDentista" icon="ui-icon-pencil" oncomplete="PF('dlgDentista').show()" title="Alterar">
+                        <f:setPropertyActionListener value="#{dentista}" target="#{dentistaBean.dentistaSelecionado}" />
+                    </p:commandButton>
+                </p:column>                
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:panExcluir" icon="ui-icon-trash" oncomplete="PF('dlgExcluir').show()" title="Excluir">
+                        <f:setPropertyActionListener value="#{dentista}" target="#{dentistaBean.dentistaSelecionado}" />
+                    </p:commandButton>
+                </p:column>                
+            </p:dataTable>
+
+            <p:dialog header="Dentista" widgetVar="dlgDentista" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panDentista" style="text-align:center;">
+
+                    <h:inputHidden value="#{dentistaBean.dentistaSelecionado.id}" />
+                        
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+
+                        <h:outputText value="nome:" />
+                        <p:inputText value="#{dentistaBean.dentistaSelecionado.nome}" />
+
+                        <h:outputText value="rg" />
+                        <p:inputText value="#{dentistaBean.dentistaSelecionado.rg}" />
+
+                        <h:outputText value="cpf:" />
+                        <p:inputText value="#{dentistaBean.dentistaSelecionado.cpf}" />
+
+                        <h:outputText value="CRO:" />
+                        <p:inputText value="#{dentistaBean.dentistaSelecionado.cro}" />
+
+                    </p:panelGrid>
+                    <p:commandButton value="Salvar" actionListener="#{dentistaBean.gravar()}"></p:commandButton>
+                </p:outputPanel>
+            </p:dialog>            
+
+            <p:dialog header="Dentista" widgetVar="dlgExcluir" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panExcluir" style="text-align:center;">
+
+                    <h:inputHidden value="#{dentistaBean.dentistaSelecionado.id}" />
+
+                    <h:outputLabel>Confirma a exclusão do dentista:</h:outputLabel>
+                    <h:outputLabel>#{dentistaBean.dentistaSelecionado.nome}</h:outputLabel>
+
+                    <p:panelGrid  columns="2" columnClasses="label,label">
+
+                        <p:commandButton value="Sim" actionListener="#{dentistaBean.excluir()}"></p:commandButton>
+                        <p:commandButton value="Não" onclick="PF('dlgExcluir').close();"></p:commandButton>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>            
+
+        </h:form>
+
+    </h:body>
+
+</html>
+

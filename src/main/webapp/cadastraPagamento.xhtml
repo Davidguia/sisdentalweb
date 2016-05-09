@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <title>Cadastra Pagamento</title>
+
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" />
+            <p:commandButton update=":form:panPagamento" icon="ui-icon-plus" oncomplete="PF('dlgPagamento').show()" title="Novo pagamento">
+                <f:setPropertyActionListener value="#{null}" target="#{pagamentoBean.pagamentoSelecionado}" />
+            </p:commandButton>
+            <p:dataTable id="basicDT" var="paciente" value="#{pagamentoBean.listaPagamento}">
+                <f:facet name="header">
+                    Pagamentos
+                </f:facet>
+                <p:column headerText="Código">
+                    <h:outputText value="#{pagamento.id}" />
+                </p:column>
+                
+                <p:column headerText="CódigoConsulta">
+                    <h:outputText value="#{pagamento.consultaDentista_ID}" />
+                </p:column>
+                
+                
+                <p:column headerText="Nome">
+                    <h:outputText value="#{pagamento.dataPagamento}" />
+                </p:column>
+                <p:column headerText="CPF">
+                    <h:outputText value="#{pagamento.dataVencimento}" />
+                </p:column>
+                <p:column headerText="RG">
+                    <h:outputText value="#{paciente.rg}" />
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:panPaciente" icon="ui-icon-pencil" oncomplete="PF('dlgPaciente').show()" title="Alterar">
+                        <f:setPropertyActionListener value="#{paciente}" target="#{pacienteBean.pacienteSelecionado}" />
+                    </p:commandButton>
+                </p:column>                
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:panExcluir" icon="ui-icon-trash" oncomplete="PF('dlgExcluir').show()" title="Excluir">
+                        <f:setPropertyActionListener value="#{paciente}" target="#{pacienteBean.pacienteSelecionado}" />
+                    </p:commandButton>
+                </p:column>                
+            </p:dataTable>
+
+            <p:dialog header="Paciente" widgetVar="dlgPaciente" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panPaciente" style="text-align:center;">
+
+                    <h:inputHidden value="#{pacienteBean.pacienteSelecionado.id}" />
+                        
+                    <p:panelGrid  columns="2" columnClasses="label,value">
+
+                        <h:outputText value="nome:" />
+                        <p:inputText value="#{pacienteBean.pacienteSelecionado.nome}" />
+
+                        <h:outputText value="rg" />
+                        <p:inputText value="#{pacienteBean.pacienteSelecionado.rg}" />
+
+                        <h:outputText value="cpf:" />
+                        <p:inputText value="#{pacienteBean.pacienteSelecionado.cpf}" />
+
+                    </p:panelGrid>
+                    <p:commandButton value="Salvar" actionListener="#{pacienteBean.gravar()}"></p:commandButton>
+                </p:outputPanel>
+            </p:dialog>            
+
+            <p:dialog header="Paciente" widgetVar="dlgExcluir" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panExcluir" style="text-align:center;">
+
+                    <h:inputHidden value="#{pacienteBean.pacienteSelecionado.id}" />
+
+                    <h:outputLabel>Confirma a exclusão do paciente:</h:outputLabel>
+                    <h:outputLabel>#{pacienteBean.pacienteSelecionado.nome}</h:outputLabel>
+
+                    <p:panelGrid  columns="2" columnClasses="label,label">
+
+                        <p:commandButton value="Sim" actionListener="#{pacienteBean.excluir()}"></p:commandButton>
+                        <p:commandButton value="Não" onclick="PF('dlgExcluir').close();"></p:commandButton>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>            
+
+        </h:form>
+
+    </h:body>
+
+</html>
