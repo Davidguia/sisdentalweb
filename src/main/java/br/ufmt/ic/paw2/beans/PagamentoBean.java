@@ -10,12 +10,13 @@ import br.ufmt.ic.paw2.entities.Pagamento;
 import java.util.List;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
 
 /**
  *
  * @author DavidFrancisco
  */
-@Named(value = "pagamentoBean")
+@ManagedBean
 @RequestScoped
 public class PagamentoBean {
 
